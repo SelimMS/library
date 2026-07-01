@@ -1,0 +1,66 @@
+.open-sans-<uniquifier> {
+  font-family: "Open Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.roboto-<uniquifier> {
+  font-family: "Roboto", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: <weight>;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+}
+
+.library {
+  padding: 20px;
+}
+
+.books {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 20px;
+  padding: 20px;
+}
+
+.book {
+  border: 1px solid #ccc;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  line-height: 1.5;
+}
+
+.book #title {
+  font-size: 1.5em;
+  margin-bottom: 10px;
+  color: red;
+  font-family: "Roboto", sans-serif;
+  text-transform: uppercase;
+}
+
+.book p {
+  font-family: "Roboto", sans-serif;
+}
+
+#bookBtn {
+  border: 1px solid #ccc;
+  padding: 20px;
+  margin-left: 20px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  line-height: 1.5;
+  background-color: white;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2em;
+  cursor: pointer;
+}
