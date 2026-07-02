@@ -34,7 +34,7 @@ for (let i = 0; i < myLibrary.length; i++) {
 }
 
 const bookCount = document.querySelector('#bookCount')
-bookCount.textContent = `Total Books: ${myLibrary.length}`
+bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
 
 const newBookBtn = document.createElement('button')
 newBookBtn.textContent = 'Add New Book'
@@ -54,27 +54,34 @@ newBookBtn.addEventListener('click', () => {
     <input type="number" id="yearInput" placeholder="Year" required>
     <label for="descriptionInput">Description:</label>
     <textarea id="descriptionInput" placeholder="Description" required></textarea>
-    <button id="saveBtn">Add Book</button>
-  `
+    <input type="button" id="saveBtn" value="Add Book">
+    `
   const saveBtn = bookElement.querySelector('#saveBtn')
   saveBtn.addEventListener('click', () => {
-    newBookBtn.disabled = false
     const title = bookElement.querySelector('#titleInput').value
     const author = bookElement.querySelector('#authorInput').value
     const year = bookElement.querySelector('#yearInput').value
     const description = bookElement.querySelector('#descriptionInput').value
-    if (title && author && year && description) {
-      addBookToLibrary(title, author, year, description)
-      const newBook = myLibrary[myLibrary.length - 1]
-      bookElement.innerHTML = `
-        <h2 id='title'>${newBook.title}</h2>
-        <p><strong>Author:</strong> ${newBook.author}</p>
-        <p><strong>Year:</strong> ${newBook.year}</p>
-        <p><strong>Description:</strong> ${newBook.description}</p>
-        <p><strong>ID:</strong> ${newBook.id}</p>`
+    if (!title || !author || !year || !description) {
+      bookElement.querySelector('#titleInput').style.borderColor = title ? '#ccc' : 'red'
+      bookElement.querySelector('#authorInput').style.borderColor = author ? '#ccc' : 'red'
+      bookElement.querySelector('#yearInput').style.borderColor = year ? '#ccc' : 'red'
+      bookElement.querySelector('#descriptionInput').style.borderColor = description ? '#ccc' : 'red'
+    } else {
+      newBookBtn.disabled = false
+      if (title && author && year && description) {
+        addBookToLibrary(title, author, year, description)
+        const newBook = myLibrary[myLibrary.length - 1]
+        bookElement.innerHTML = `
+          <h2 id='title'>${newBook.title}</h2>
+          <p><strong>Author:</strong> ${newBook.author}</p>
+          <p><strong>Year:</strong> ${newBook.year}</p>
+          <p><strong>Description:</strong> ${newBook.description}</p>
+          <p><strong>ID:</strong> ${newBook.id}</p>`
+      }
+      bookElement.classList.remove('bookForm')
     }
-    bookElement.classList.remove('bookForm')
-    bookCount.textContent = `Total Books: ${myLibrary.length}`
+    bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
   })
 })
 
