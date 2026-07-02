@@ -25,10 +25,10 @@ for (let i = 0; i < myLibrary.length; i++) {
   bookElement.classList.add('book')
   bookElement.innerHTML = `
   <h2 id='title'>${book.title}</h2>
-  <p>Author: ${book.author}</p>
-  <p>Year: ${book.year}</p>
-  <p>Description: ${book.description}</p>
-  <p>ID: ${book.id}</p>
+  <p><strong>Author:</strong> ${book.author}</p>
+  <p><strong>Year:</strong> ${book.year}</p>
+  <p><strong>Description:</strong> ${book.description}</p>
+  <p><strong>ID:</strong> ${book.id}</p>
   `
   books.appendChild(bookElement)
 }
@@ -40,23 +40,42 @@ const newBookBtn = document.createElement('button')
 newBookBtn.textContent = 'Add New Book'
 newBookBtn.id = 'bookBtn'
 newBookBtn.addEventListener('click', () => {
-  const title = prompt('Enter the title of the book:')
-  const author = prompt('Enter the author of the book:')
-  const year = prompt('Enter the year of publication:')
-  const description = prompt('Enter a brief description of the book:')
-  addBookToLibrary(title, author, year, description)
-  const newBook = myLibrary[myLibrary.length - 1]
+  newBookBtn.disabled = true
   const bookElement = document.createElement('div')
-  bookElement.classList.add('book')
-  bookElement.innerHTML = `
-    <h2 id='title'>${newBook.title}</h2>
-    <p>Author: ${newBook.author}</p>
-    <p>Year: ${newBook.year}</p>
-    <p>Description: ${newBook.description}</p>
-    <p>ID: ${newBook.id}</p>
-  `
   books.appendChild(bookElement)
-  bookCount.textContent = `Total Books: ${myLibrary.length}`
+  bookElement.classList.add('book')
+  bookElement.classList.add('bookForm')
+  bookElement.innerHTML = `
+    <label for="titleInput">Title:</label>
+    <input type="text" id="titleInput" placeholder="Title" required>
+    <label for="authorInput">Author:</label>
+    <input type="text" id="authorInput" placeholder="Author" required>
+    <label for="yearInput">Year:</label>
+    <input type="number" id="yearInput" placeholder="Year" required>
+    <label for="descriptionInput">Description:</label>
+    <textarea id="descriptionInput" placeholder="Description" required></textarea>
+    <button id="saveBtn">Add Book</button>
+  `
+  const saveBtn = bookElement.querySelector('#saveBtn')
+  saveBtn.addEventListener('click', () => {
+    newBookBtn.disabled = false
+    const title = bookElement.querySelector('#titleInput').value
+    const author = bookElement.querySelector('#authorInput').value
+    const year = bookElement.querySelector('#yearInput').value
+    const description = bookElement.querySelector('#descriptionInput').value
+    if (title && author && year && description) {
+      addBookToLibrary(title, author, year, description)
+      const newBook = myLibrary[myLibrary.length - 1]
+      bookElement.innerHTML = `
+        <h2 id='title'>${newBook.title}</h2>
+        <p><strong>Author:</strong> ${newBook.author}</p>
+        <p><strong>Year:</strong> ${newBook.year}</p>
+        <p><strong>Description:</strong> ${newBook.description}</p>
+        <p><strong>ID:</strong> ${newBook.id}</p>`
+    }
+    bookElement.classList.remove('bookForm')
+    bookCount.textContent = `Total Books: ${myLibrary.length}`
+  })
 })
 
 library.appendChild(newBookBtn)

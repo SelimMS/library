@@ -37,7 +37,7 @@
   padding: 20px;
   border-radius: 5px;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  line-height: 1.5;
+  line-height: 1.75;
 }
 
 .book #title {
@@ -52,6 +52,37 @@
   font-family: "Roboto", sans-serif;
 }
 
+.bookForm {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 5px;
+  font-family: "Roboto", sans-serif;
+}
+
+.bookForm button {
+  grid-column: 1 / span 2;
+  border: 1px solid #ccc;
+  padding: 10px;
+  border-radius: 5px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  line-height: 1.5;
+  background-color: white;
+  font-family: "Roboto", sans-serif;
+  font-size: 1.2em;
+  cursor: pointer;
+}
+
+.bookForm input, .bookForm textarea {
+  font-family: "Roboto", sans-serif;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+.bookForm textarea {
+  grid-column: 1 / span 2;
+}
+
 #bookBtn {
   border: 1px solid #ccc;
   padding: 20px;
@@ -63,4 +94,9 @@
   font-family: "Roboto", sans-serif;
   font-size: 1.2em;
   cursor: pointer;
+}
+
+.disabled {
+  opacity: 0.5;
+  pointer-events: none;
 }
