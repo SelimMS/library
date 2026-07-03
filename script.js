@@ -3,26 +3,28 @@ const books = document.querySelector('.books')
 
 const myLibrary = [];
 
-function Book(title, author, year, description) {
+function Book(title, author, year, description, status) {
   this.title = title;
   this.author = author;
   this.year = year;
-  this.description = description
+  this.description = description;
+  this.status = status;
   this.id = crypto.randomUUID()
 }
 
-function addBookToLibrary(title, author, year, description) {
-  const newBook = new Book(title, author, year, description)
+function addBookToLibrary(title, author, year, description, status) {
+  const newBook = new Book(title, author, year, description, status)
   myLibrary.push(newBook)
 }
-addBookToLibrary('The Great Gatsby', 'F. Scott Fitzgerald', 1925, 'A novel about the American dream.')
-addBookToLibrary('To Kill a Mockingbird', 'Harper Lee', 1960, 'A novel about racial injustice in the Deep South.')
-addBookToLibrary('1984', 'George Orwell', 1949, 'A dystopian novel about totalitarianism and surveillance.')  
+addBookToLibrary('The Great Gatsby', 'F. Scott Fitzgerald', 1925, 'A novel about the American dream.', 'read')
+addBookToLibrary('To Kill a Mockingbird', 'Harper Lee', 1960, 'A novel about racial injustice in the Deep South.', 'notRead')
+addBookToLibrary('1984', 'George Orwell', 1949, 'A dystopian novel about totalitarianism and surveillance.', 'reading')  
 
 for (let i = 0; i < myLibrary.length; i++) {
   const book = myLibrary[i]
   const bookElement = document.createElement('div')
   bookElement.classList.add('book')
+  bookElement.classList.add(book.status)
   bookElement.innerHTML = `
   <h2 id='title'>${book.title}</h2>
   <p><strong>Author:</strong> ${book.author}</p>
@@ -51,7 +53,13 @@ newBookBtn.addEventListener('click', () => {
     <label for="authorInput">Author:</label>
     <input type="text" id="authorInput" placeholder="Author" required>
     <label for="yearInput">Year:</label>
-    <input type="number" id="yearInput" placeholder="Year" required>
+    <input type="number" id="yearInput" placeholder="Year" min="0" max="2026" required>
+    <label for="status">Status:</label>
+    <select id="status" name="status">
+      <option value="read">Completed</option>
+      <option value="notRead">Plan to read</option>
+      <option value="reading">Reading</option>
+    </select>
     <label for="descriptionInput">Description:</label>
     <textarea id="descriptionInput" placeholder="Description" required></textarea>
     <input type="button" id="saveBtn" value="Add Book">
@@ -62,6 +70,7 @@ newBookBtn.addEventListener('click', () => {
     const author = bookElement.querySelector('#authorInput').value
     const year = bookElement.querySelector('#yearInput').value
     const description = bookElement.querySelector('#descriptionInput').value
+    const status = bookElement.querySelector('#status').value
     if (!title || !author || !year || !description) {
       bookElement.querySelector('#titleInput').style.borderColor = title ? '#ccc' : 'red'
       bookElement.querySelector('#authorInput').style.borderColor = author ? '#ccc' : 'red'
@@ -70,7 +79,7 @@ newBookBtn.addEventListener('click', () => {
     } else {
       newBookBtn.disabled = false
       if (title && author && year && description) {
-        addBookToLibrary(title, author, year, description)
+        addBookToLibrary(title, author, year, description, status)
         const newBook = myLibrary[myLibrary.length - 1]
         bookElement.innerHTML = `
           <h2 id='title'>${newBook.title}</h2>
@@ -80,9 +89,12 @@ newBookBtn.addEventListener('click', () => {
           <p><strong>ID:</strong> ${newBook.id}</p>`
       }
       bookElement.classList.remove('bookForm')
+      bookElement.classList.add(status)
     }
     bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
   })
 })
 
 library.appendChild(newBookBtn)
+
+
