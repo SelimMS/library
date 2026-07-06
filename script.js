@@ -16,6 +16,17 @@ function addBookToLibrary(title, author, year, description, status) {
   const newBook = new Book(title, author, year, description, status)
   myLibrary.push(newBook)
 }
+
+function deleteBook(id) {
+  for (let i = 0; i < myLibrary.length; i++) {
+    if (myLibrary[i].id === id) {
+      myLibrary.splice(i, 1)
+      books.removeChild(books.children[i])
+    }
+  }
+}
+
+
 addBookToLibrary('The Great Gatsby', 'F. Scott Fitzgerald', 1925, 'A novel about the American dream.', 'read')
 addBookToLibrary('To Kill a Mockingbird', 'Harper Lee', 1960, 'A novel about racial injustice in the Deep South.', 'notRead')
 addBookToLibrary('1984', 'George Orwell', 1949, 'A dystopian novel about totalitarianism and surveillance.', 'reading')  
@@ -31,6 +42,7 @@ for (let i = 0; i < myLibrary.length; i++) {
   <p><strong>Year:</strong> ${book.year}</p>
   <p><strong>Description:</strong> ${book.description}</p>
   <p><strong>ID:</strong> ${book.id}</p>
+  <button class="deleteBtn" id="${book.id}">Delete</button>
   `
   books.appendChild(bookElement)
 }
@@ -86,11 +98,30 @@ newBookBtn.addEventListener('click', () => {
           <p><strong>Author:</strong> ${newBook.author}</p>
           <p><strong>Year:</strong> ${newBook.year}</p>
           <p><strong>Description:</strong> ${newBook.description}</p>
-          <p><strong>ID:</strong> ${newBook.id}</p>`
+          <p><strong>ID:</strong> ${newBook.id}</p>
+          <button class="deleteBtn" id="${newBook.id}">Delete</button>
+          `
       }
       bookElement.classList.remove('bookForm')
       bookElement.classList.add(status)
+      const deleteButtons = document.querySelectorAll('.deleteBtn')
+      deleteButtons.forEach((button) => {
+        button.addEventListener('click', () => {
+          const bookId = button.id
+          deleteBook(bookId)
+          bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
+        })
+      })
     }
+    bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
+  })
+})
+
+const deleteButtons = document.querySelectorAll('.deleteBtn')
+deleteButtons.forEach((button) => {
+  button.addEventListener('click', () => {
+    const bookId = button.id
+    deleteBook(bookId)
     bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
   })
 })
