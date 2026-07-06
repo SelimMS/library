@@ -44,6 +44,9 @@
 }
 
 .book {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
   border: 1px solid #ccc;
   padding: 20px;
   border-radius: 10px;
@@ -186,7 +189,7 @@ select {
   padding: 20px;
   margin-left: 20px;
   border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 3px 5px rgba(0, 0, 0, 0.25);
   line-height: 1.5;
   background-color: white;
   font-family: "Roboto", sans-serif;
@@ -194,7 +197,32 @@ select {
   cursor: pointer;
 }
 
+#bookBtn:hover {
+  border: 1px solid dimgrey;
+  background-color: #f0f0f0;
+}
+
 .disabled {
   opacity: 0.5;
   pointer-events: none;
+}
+
+.bookButtons {
+  border-top: 1px solid #ccc;
+  padding-top: 10px;
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+.deleteBtn, .statusBtn {
+  border: none;
+  background: none;
+  cursor: pointer;  
+}
+
+.statusBtn:hover, .deleteBtn:hover {
+  transform: scale(1.1);
+  transition: transform 0.2s;
 }

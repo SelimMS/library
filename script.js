@@ -26,7 +26,6 @@ function deleteBook(id) {
   }
 }
 
-
 addBookToLibrary('The Great Gatsby', 'F. Scott Fitzgerald', 1925, 'A novel about the American dream.', 'read')
 addBookToLibrary('To Kill a Mockingbird', 'Harper Lee', 1960, 'A novel about racial injustice in the Deep South.', 'notRead')
 addBookToLibrary('1984', 'George Orwell', 1949, 'A dystopian novel about totalitarianism and surveillance.', 'reading')  
@@ -38,11 +37,18 @@ for (let i = 0; i < myLibrary.length; i++) {
   bookElement.classList.add(book.status)
   bookElement.innerHTML = `
   <h2 id='title'>${book.title}</h2>
-  <p><strong>Author:</strong> ${book.author}</p>
-  <p><strong>Year:</strong> ${book.year}</p>
-  <p><strong>Description:</strong> ${book.description}</p>
-  <p><strong>ID:</strong> ${book.id}</p>
-  <button class="deleteBtn" id="${book.id}">Delete</button>
+  <div class="bookAttributes">
+    <p><strong>Author:</strong> ${book.author}</p>
+    <p><strong>Year:</strong> ${book.year}</p>
+    <p><strong>Description:</strong> ${book.description}</p>
+    <p><strong>ID:</strong> ${book.id}</p>
+  </div>
+  <div class="bookButtons">
+    <button class="deleteBtn" id="${book.id}" title="Delete Book"><iconify-icon icon="mdi:delete-circle-outline" height="30px" style="color: dimgrey;"></iconify-icon></button>
+    <button class="statusBtn" id="${book.id}" value="read" title="Mark as Read"><iconify-icon icon="mdi:checkbox-marked-circle-outline" height="30px" style="color: green;"></iconify-icon></button>
+    <button class="statusBtn" id="${book.id}" value="reading" title="Mark as Reading"><iconify-icon icon="mdi:dots-horizontal-circle-outline" height="30px" style="color: goldenrod;"></iconify-icon></button>
+    <button class="statusBtn" id="${book.id}" value="notRead" title="Mark as Not Read"><iconify-icon icon="mdi:circle-off-outline" height="30px" style="color: red;"></iconify-icon></button>
+  </div>
   `
   books.appendChild(bookElement)
 }
@@ -95,36 +101,61 @@ newBookBtn.addEventListener('click', () => {
         const newBook = myLibrary[myLibrary.length - 1]
         bookElement.innerHTML = `
           <h2 id='title'>${newBook.title}</h2>
-          <p><strong>Author:</strong> ${newBook.author}</p>
-          <p><strong>Year:</strong> ${newBook.year}</p>
-          <p><strong>Description:</strong> ${newBook.description}</p>
-          <p><strong>ID:</strong> ${newBook.id}</p>
-          <button class="deleteBtn" id="${newBook.id}">Delete</button>
+          <div class="bookAttributes">
+            <p><strong>Author:</strong> ${newBook.author}</p>
+            <p><strong>Year:</strong> ${newBook.year}</p>
+            <p><strong>Description:</strong> ${newBook.description}</p>
+            <p><strong>ID:</strong> ${newBook.id}</p>
+          </div>
+          <div class="bookButtons">
+            <button class="deleteBtn" id="${newBook.id}" title="Delete Book"><iconify-icon icon="mdi:delete-circle-outline" height="30px" style="color: dimgrey;"></iconify-icon></button>
+            <button class="statusBtn" id="${newBook.id}" value="read" title="Mark as Read"><iconify-icon icon="mdi:checkbox-marked-circle-outline" height="30px" style="color: green;"></iconify-icon></button>
+            <button class="statusBtn" id="${newBook.id}" value="reading" title="Mark as Reading"><iconify-icon icon="mdi:dots-horizontal-circle-outline" height="30px" style="color: goldenrod;"></iconify-icon></button>
+            <button class="statusBtn" id="${newBook.id}" value="notRead" title="Mark as Not Read"><iconify-icon icon="mdi:circle-off-outline" height="30px" style="color: red;"></iconify-icon></button>
+          </div>
           `
       }
       bookElement.classList.remove('bookForm')
       bookElement.classList.add(status)
-      const deleteButtons = document.querySelectorAll('.deleteBtn')
-      deleteButtons.forEach((button) => {
-        button.addEventListener('click', () => {
-          const bookId = button.id
-          deleteBook(bookId)
-          bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
-        })
-      })
+      deleteB()
+      changeStatus()
     }
     bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
   })
 })
 
-const deleteButtons = document.querySelectorAll('.deleteBtn')
-deleteButtons.forEach((button) => {
-  button.addEventListener('click', () => {
-    const bookId = button.id
-    deleteBook(bookId)
-    bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
+
+function deleteB() {
+  const deleteButtons = document.querySelectorAll('.deleteBtn')
+  deleteButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const bookId = button.id
+      deleteBook(bookId)
+      bookCount.innerHTML = `Total Books: <strong>${myLibrary.length}</strong>`
+    })
   })
-})
+}
+
+
+function changeStatus() {
+  const statusButtons = document.querySelectorAll('.statusBtn')
+  statusButtons.forEach((button) => {
+    button.addEventListener('click', () => {
+      const bookId = button.id
+      const newStatus = button.value
+      for (let i = 0; i < myLibrary.length; i++) {
+        if (myLibrary[i].id === bookId) {
+          myLibrary[i].status = newStatus
+          books.children[i].classList.remove('read', 'notRead', 'reading')
+          books.children[i].classList.add(newStatus)
+        }
+      }
+    })
+  })
+}
+
+deleteB()
+changeStatus()
 
 library.appendChild(newBookBtn)
 
